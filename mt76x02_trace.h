@@ -14,8 +14,9 @@
 
 #define MAXNAME		32
 #define DEV_ENTRY	__array(char, wiphy_name, 32)
-#define DEV_ASSIGN	strlcpy(__entry->wiphy_name,	\
-				wiphy_name(mt76_hw(dev)->wiphy), MAXNAME)
+#define DEV_ASSIGN							\
+    strncpy(__entry->wiphy_name, wiphy_name(mt76_hw(dev)->wiphy), MAXNAME - 1); \
+    __entry->wiphy_name[MAXNAME - 1] = '\0'
 #define DEV_PR_FMT	"%s"
 #define DEV_PR_ARG	__entry->wiphy_name
 
